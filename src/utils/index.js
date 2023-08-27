@@ -4,7 +4,7 @@ const _ = require('lodash')
 const {Types} = require('mongoose')
 const crypto = require('crypto')
 
-const convertToObjectIdMongodb = id => Types.ObjectId(id)
+const convertToObjectIdMongodb = id => new Types.ObjectId(id)
 
 
 

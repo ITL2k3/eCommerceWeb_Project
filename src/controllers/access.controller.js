@@ -28,7 +28,6 @@ class AccessController {
         }).send(res)
    
         
-
     }
     
     login = async(req,res,next) => {
