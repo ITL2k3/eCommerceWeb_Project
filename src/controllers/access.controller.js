@@ -38,8 +38,6 @@ class AccessController {
             metadata: await AccessService.login(req.body )
         }).send(res)
    
-        
-
     }
 
     signUp = async(req, res, next) => {
