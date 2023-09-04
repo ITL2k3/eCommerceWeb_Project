@@ -202,24 +202,27 @@ class DiscountServices {
             totalOrder = products.reduce((acc, product)=> {
                 return acc + (product.quantity * product.price)
             },0)
+            console.log('totalOrder:', totalOrder)
             if(totalOrder < discount_min_order_value){
                 throw new NotFoundError(`discount required a minium order value of ${discount_min_order_value}`)
             }
         }
         // console.log('uid:',userId)
-        // if(discount_max_uses_per_user > 0){
-        //     // const userUserDiscount = discount.find({discount_users_used:{$in:"userId"}})
-        //     const userUserDiscount = discount.find({
-        //         discount_users_used: {$exists: true}
+        if(discount_max_uses_per_user > 0){
+            // const userUserDiscount = discount.find({discount_users_used:{$in:"userId"}})
+            const userUserDiscount = await discount.findOne({
+                discount_users_used: {
+                    $elemMatch: {userId: userId}
+                }
 
-        //     })
-        //     // const userUserDiscount = discount_user_used.find(user => user.userId === userId)
+            })
+            // const userUserDiscount = discount_user_used.find(user => user.userId === userId)
            
-        //     if(userUserDiscount){
-        //         throw new BadRequestError(`1 Discount per account`)
+            if(userUserDiscount){
+                throw new BadRequestError(`1 Discount per account`)
 
-        //     }
-        // }
+            }
+        }
         //check xem discount la fixed_amount-
         const amount = discount_type ==='fixed_amount' ? discount_value : totalOrder*(discount_value) / 100
 
