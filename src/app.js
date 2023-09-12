@@ -13,6 +13,11 @@ app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+//test pub/sub redis
+require('./tests/inventory.test')
+const productTest = require('./tests/product.test')
+productTest.purchaseProduct('product:001',10)
+
 //init db
 require('./dbs/init.mongodb')
 // const { checkOverload } = require('./helper/check.connect')
@@ -25,6 +30,10 @@ app.use((req,res,next) => {
     error.status = 404
     next(error)
 })
+
+
+
+
 
 app.use((error,req,res,next) => {
     const statusCode = error.status || 500
